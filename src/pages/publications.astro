@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sectionVisibility } from '../site.config';
+
+const noindex = sectionVisibility('/publications') !== 'public';
+
+// Only public entries are listed; unlisted/protected publications exist in the
+// collection but never render anywhere, so they stay invisible.
+const publications = (await getCollection('publications', (p) => p.data.visibility === 'public')).sort(
+  (a, b) => b.data.year - a.data.year
+);
+---
+
+<BaseLayout title="Publications" noindex={noindex}>
+  <h1>Publications</h1>
+  {publications.length === 0 && <p class="muted">Nothing here yet.</p>}
+  <ul>
+    {
+      publications.map(({ data }) => (
+        <li>
+          <span class="title">{data.title}</span>
+          <span class="muted small">
+            {data.authors.join(', ')} · {data.venue}, {data.year}
+          </span>
+          <span class="links small">
+            {data.doi && <a href={data.doi}>DOI</a>}
+            {data.pdf && <a href={data.pdf}>PDF</a>}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  li:last-child {
+    border-bottom: 0;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .links {
+    display: flex;
+    gap: 0.75rem;
+  }
+</style>

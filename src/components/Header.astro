@@ -1,0 +1,65 @@
+---
+import { SITE, SECTIONS } from '../site.config';
+
+const navSections = SECTIONS.filter((s) => s.visibility === 'public');
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header>
+  <nav>
+    <a href="/" class="name" aria-current={current === '/' ? 'page' : undefined}>{SITE.title}</a>
+    <ul>
+      {
+        navSections.map((s) => (
+          <li>
+            <a href={s.href} aria-current={current.startsWith(s.href) ? 'page' : undefined}>
+              {s.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .name {
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  ul a {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  ul a:hover,
+  ul a[aria-current='page'] {
+    color: var(--fg);
+    text-decoration: none;
+  }
+</style>

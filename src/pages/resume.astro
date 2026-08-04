@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { sectionVisibility } from '../site.config';
+
+const noindex = sectionVisibility('/resume') !== 'public';
+---
+
+<BaseLayout title="Resume" noindex={noindex}>
+  <div class="top">
+    <h1>Resume</h1>
+    <a class="download small" href="/resume.pdf" download>Download PDF</a>
+  </div>
+
+  <!-- PLACEHOLDER RESUME: replace every section below with your real details. -->
+
+  <p class="muted">
+    Brian · City, Country · <a href="mailto:you@example.com">you@example.com</a> ·
+    <a href="https://github.com/username">github.com/username</a>
+  </p>
+
+  <section>
+    <h2>Experience</h2>
+
+    <h3>Job Title — Company Name</h3>
+    <p class="muted small">Jan 2023 – Present · Location</p>
+    <ul>
+      <li>Placeholder bullet describing an accomplishment with measurable impact.</li>
+      <li>Placeholder bullet describing a system you built or improved.</li>
+    </ul>
+
+    <h3>Previous Job Title — Previous Company</h3>
+    <p class="muted small">Jun 2020 – Dec 2022 · Location</p>
+    <ul>
+      <li>Placeholder bullet describing responsibilities and outcomes.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <h3>Degree, Field of Study — University Name</h3>
+    <p class="muted small">2016 – 2020</p>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <p>Placeholder: languages, frameworks, and tools you want to highlight.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .download {
+    white-space: nowrap;
+  }
+
+  section ul {
+    margin: 0.25rem 0 1rem;
+    padding-left: 1.25rem;
+  }
+
+  @media print {
+    .download {
+      display: none;
+    }
+
+    :global(header),
+    :global(footer) {
+      display: none;
+    }
+
+    :global(main) {
+      padding: 0;
+    }
+
+    :global(body) {
+      background: #fff;
+      color: #000;
+    }
+
+    :global(a) {
+      color: #000;
+      text-decoration: none;
+    }
+  }
+</style>

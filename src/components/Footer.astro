@@ -1,0 +1,21 @@
+---
+import { SITE } from '../site.config';
+
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <p class="muted small">© {year} {SITE.author}</p>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+  }
+
+  footer p {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1.25rem;
+  }
+</style>

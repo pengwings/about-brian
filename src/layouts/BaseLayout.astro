@@ -1,0 +1,38 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../site.config';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Set for unlisted/protected pages so search engines skip them. */
+  noindex?: boolean;
+  /** Widens <main> for gallery-style pages. */
+  wide?: boolean;
+}
+
+const { title, description = SITE.description, noindex = false, wide = false } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.title}` : SITE.title;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <Header />
+    <main class:list={[{ wide }]}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

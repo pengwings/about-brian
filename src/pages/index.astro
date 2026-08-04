@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SECTIONS } from '../site.config';
+
+const navSections = SECTIONS.filter((s) => s.visibility === 'public');
+---
+
+<BaseLayout>
+  <h1>Hi, I'm Brian.</h1>
+  <p>
+    <!-- PLACEHOLDER: replace with a short intro about yourself. -->
+    I'm a software engineer who also spends time behind a camera. This site collects my resume,
+    photography, publications, and personal projects.
+  </p>
+
+  <ul>
+    {
+      navSections.map((s) => (
+        <li>
+          <a href={s.href}>{s.label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  ul a {
+    font-size: 1.1rem;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, date, links, visibility } = project.data;
+const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+---
+
+<BaseLayout title={title} description={description} noindex={visibility !== 'public'}>
+  <h1>{title}</h1>
+  <p class="muted small">
+    <time datetime={date.toISOString()}>{formatted}</time>
+    {links?.repo && (
+      <>
+        · <a href={links.repo}>Source</a>
+      </>
+    )}
+    {links?.demo && (
+      <>
+        · <a href={links.demo}>Demo</a>
+      </>
+    )}
+  </p>
+  <Content />
+</BaseLayout>

@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { getCollection } from 'astro:content';
+import { sectionVisibility } from '../../site.config';
+
+const noindex = sectionVisibility('/projects') !== 'public';
+
+// Only public entries are listed. Unlisted/protected projects still get their
+// own page under /projects/<slug>, reachable by direct link only.
+const projects = (await getCollection('projects', (p) => p.data.visibility === 'public')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Projects" noindex={noindex}>
+  <h1>Projects</h1>
+  {projects.length === 0 && <p class="muted">Nothing here yet.</p>}
+  {
+    projects.map((p) => (
+      <EntryCard
+        href={`/projects/${p.id}`}
+        title={p.data.title}
+        description={p.data.description}
+        date={p.data.date}
+      />
+    ))
+  }
+</BaseLayout>

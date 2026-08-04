@@ -7,6 +7,7 @@
 // cookie holding the SHA-256 hash of the password, so changing the password
 // invalidates every existing cookie. Note: this does not run under `astro dev`;
 // use `vercel dev` or a preview deployment to exercise it.
+import { rewrite } from '@vercel/functions/middleware';
 import { SECTIONS } from './src/site.config';
 import protectedData from './protected-paths.json';
 
@@ -63,6 +64,20 @@ export default async function middleware(request: Request): Promise<Response | u
     retry.searchParams.set('error', '1');
     retry.searchParams.set('next', next);
     return Response.redirect(retry, 303);
+  }
+
+  // Maintenance mode: while the MAINTENANCE_MODE env var is set, everyone sees
+  // the /soon page. Unlocking with the site password at /unlock bypasses it, so
+  // the real site stays previewable. Toggle off with:
+  //   vercel env rm MAINTENANCE_MODE production && vercel redeploy <url> (or a new deploy)
+  if (process.env.MAINTENANCE_MODE) {
+    const path = url.pathname.replace(/\/+$/, '') || '/';
+    const exempt = path === '/unlock' || path === '/soon' || path === '/robots.txt' || path.startsWith('/favicon');
+    if (!exempt) {
+      const hash = await passwordHash();
+      const unlocked = hash !== null && getCookie(request, COOKIE_NAME) === hash;
+      if (!unlocked) return rewrite(new URL('/soon', url));
+    }
   }
 
   if (!isProtected(url.pathname)) return undefined;

@@ -36,6 +36,20 @@ vercel env rm SITE_PASSWORD production && vercel env add SITE_PASSWORD productio
 the next deploy. Note the middleware does not run under `npm run dev`; test
 gating with `vercel dev` or on a deployment.
 
+## Maintenance mode
+
+While the `MAINTENANCE_MODE` env var is set, all visitors see the minimal
+`/soon` page. Entering the site password at `/unlock` bypasses it, so you can
+still browse the real site while it's "closed". Toggle:
+
+```sh
+# off (site goes live)
+vercel env rm MAINTENANCE_MODE production -y && vercel deploy --prod
+
+# on
+printf 1 | vercel env add MAINTENANCE_MODE production && vercel deploy --prod
+```
+
 ## Commands
 
 | Command | Action |

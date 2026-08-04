@@ -1,43 +1,46 @@
-# Astro Starter Kit: Minimal
+# about-brian
+
+Minimalist personal site — resume, photography, publications, and projects.
+Built with [Astro](https://astro.build), deployed on Vercel.
+
+## Editing content
+
+| What | Where |
+| :-- | :-- |
+| Intro / homepage | `src/pages/index.astro` |
+| Resume | `src/pages/resume.astro` (and drop your real PDF at `public/resume.pdf`) |
+| Photos | Add image files to `src/assets/photos/` — the gallery picks them up automatically; the filename becomes the alt text |
+| Projects | One Markdown file per project in `src/content/projects/` |
+| Publications | One Markdown file per publication in `src/content/publications/` |
+| Nav / section visibility | `src/site.config.ts` |
+
+## Visibility
+
+Every project/publication entry (via `visibility:` frontmatter) and every
+section (via `src/site.config.ts`) is one of:
+
+- `public` — listed, in the nav, indexable (default)
+- `unlisted` — hidden from listings, nav, and search engines; reachable by direct link
+- `protected` — unlisted **and** password-gated
+
+Password gating is enforced by `middleware.ts` (Vercel Routing Middleware)
+against the `SITE_PASSWORD` environment variable. `scripts/gen-protected.mjs`
+collects protected entry routes into `protected-paths.json` during `npm run
+build`; commit that file when it changes. To change the password:
 
 ```sh
-npm create astro@latest -- --template minimal
+vercel env rm SITE_PASSWORD production && vercel env add SITE_PASSWORD production
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+(repeat for `preview`) — changing it invalidates everyone's unlock cookies on
+the next deploy. Note the middleware does not run under `npm run dev`; test
+gating with `vercel dev` or on a deployment.
 
-## 🚀 Project Structure
+## Commands
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command | Action |
+| :-- | :-- |
+| `npm run dev` | Dev server at `localhost:4321` |
+| `npm run build` | Regenerate `protected-paths.json` + production build to `dist/` |
+| `npm run preview` | Serve the built site locally |
+| `vercel deploy` | Deploy (project: `pengwings-projects/about-brian`) |

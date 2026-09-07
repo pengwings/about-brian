@@ -97,8 +97,8 @@ export default async function middleware(request: Request): Promise<Response | u
 }
 
 export const config = {
-  // Skip hashed build assets and /snow-peak (proxied to the snow-peak-2026
-  // project by vercel.json; it has its own sign-in and is never in maintenance
-  // mode here). Everything else goes through the protected check.
+  // Skip hashed build assets and /snow-peak (vercel.json redirects it to the
+  // trip app's own subdomain; keeping it out of the matcher means maintenance
+  // mode never intercepts it). Everything else goes through the protected check.
   matcher: ['/((?!_astro/|snow-peak(?:/|$)).*)'],
 };

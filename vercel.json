@@ -1,11 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
-    { "source": "/snow-peak/", "destination": "/snow-peak", "permanent": false },
-    { "source": "/snow-peak/:path+/", "destination": "/snow-peak/:path+", "permanent": false }
-  ],
-  "rewrites": [
-    { "source": "/snow-peak", "destination": "https://snow-peak-2026.vercel.app/snow-peak" },
-    { "source": "/snow-peak/:path*", "destination": "https://snow-peak-2026.vercel.app/snow-peak/:path*" }
+    { "source": "/snow-peak", "destination": "https://snow-peak.brian-yu.com/", "permanent": false },
+    { "source": "/snow-peak/", "destination": "https://snow-peak.brian-yu.com/", "permanent": false },
+    { "source": "/snow-peak/:path+", "destination": "https://snow-peak.brian-yu.com/:path+", "permanent": false },
+    { "source": "/snow-peak/:path+/", "destination": "https://snow-peak.brian-yu.com/:path+", "permanent": false }
   ]
 }

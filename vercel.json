@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/snow-peak", "destination": "https://snow-peak-2026.vercel.app/snow-peak" },
+    { "source": "/snow-peak/:path*", "destination": "https://snow-peak-2026.vercel.app/snow-peak/:path*" }
+  ]
+}

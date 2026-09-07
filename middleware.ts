@@ -97,6 +97,8 @@ export default async function middleware(request: Request): Promise<Response | u
 }
 
 export const config = {
-  // Skip hashed build assets; everything else goes through the protected check.
-  matcher: ['/((?!_astro/).*)'],
+  // Skip hashed build assets and /snow-peak (proxied to the snow-peak-2026
+  // project by vercel.json; it has its own sign-in and is never in maintenance
+  // mode here). Everything else goes through the protected check.
+  matcher: ['/((?!_astro/|snow-peak(?:/|$)).*)'],
 };

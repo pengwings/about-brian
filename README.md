@@ -50,6 +50,15 @@ vercel env rm MAINTENANCE_MODE production -y && vercel deploy --prod
 printf 1 | vercel env add MAINTENANCE_MODE production && vercel deploy --prod
 ```
 
+## Snow Peak trip app
+
+`brian-yu.com/snow-peak` is a separate Vercel project
+(`pengwings-projects/snow-peak-2026`, a Next.js app with `basePath: '/snow-peak'`).
+`vercel.json` rewrites `/snow-peak/*` to that deployment, and `middleware.ts`
+excludes the path from its matcher so maintenance mode and password gating
+never apply to it. Deploy the trip app from its own repo; nothing here needs to
+change unless the path or the destination project changes.
+
 ## Commands
 
 | Command | Action |
